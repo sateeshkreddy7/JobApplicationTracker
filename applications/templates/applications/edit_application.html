@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+
+<link rel="stylesheet" href="{% static 'applications/style.css' %}">
+    <title>Edit Job Application</title>
+</head>
+<body>
+
+    <div class="auth-container">
+
+    <h1>Edit Job Application</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Update Application</button>
+    </form>
+
+    <p>
+        <a href="/dashboard/">Back to Dashboard</a>
+    </p>
+
+    </div>
+
+</body>
+</html>

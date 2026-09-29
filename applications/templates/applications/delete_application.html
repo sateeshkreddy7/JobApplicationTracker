@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'applications/style.css' %}">
+    <title>Delete Job Application</title>
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+    <h1>Delete Job Application</h1>
+
+    <p>
+        Are you sure you want to delete
+        <strong>{{ application.company_name }}</strong>
+        - {{ application.job_title }}?
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <button type="submit">Yes, Delete</button>
+    </form>
+
+    <p>
+        <a href="/dashboard/">Cancel</a>
+    </p>
+
+    </div>
+
+</body>
+</html>

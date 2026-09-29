@@ -1,0 +1,150 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Application Dashboard</title>
+    <link rel="stylesheet" href="{% static 'applications/style.css' %}">
+</head>
+
+<body>
+
+    <h1>Job Application Dashboard</h1>
+    <div class="dashboard-stats">
+
+    <div class="stat-card">
+        <h3>Total Applications</h3>
+        <p>{{ total }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Applied</h3>
+        <p>{{ applied }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Shortlisted</h3>
+        <p>{{ shortlisted }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Interview</h3>
+        <p>{{ interview }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Selected</h3>
+        <p>{{ selected }}</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Rejected</h3>
+        <p>{{ rejected }}</p>
+    </div>
+
+</div>
+
+<hr>
+
+    <p>
+    <a class="add-btn" href="/add/">+ Add New Application</a>
+</p>
+<form method="POST" action="/logout/">
+    {% csrf_token %}
+    <button type="submit" class="logout-btn">Logout</button>
+</form>
+    <form method="GET" class="search-form"></form>
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Search company or job title"
+        value="{{ search|default:'' }}"
+    >
+
+    <select name="status">
+
+        <option value="">All Status</option>
+
+        <option value="Applied" {% if status == "Applied" %}selected{% endif %}>
+            Applied
+        </option>
+
+        <option value="Shortlisted" {% if status == "Shortlisted" %}selected{% endif %}>
+            Shortlisted
+        </option>
+
+        <option value="Interview" {% if status == "Interview" %}selected{% endif %}>
+            Interview
+        </option>
+
+        <option value="Selected" {% if status == "Selected" %}selected{% endif %}>
+            Selected
+        </option>
+
+        <option value="Rejected" {% if status == "Rejected" %}selected{% endif %}>
+            Rejected
+        </option>
+
+    </select>
+
+    <button type="submit">Search</button>
+
+</form>
+
+<br>
+
+    {% if applications %}
+
+        <table border="1" cellpadding="10">
+
+            <tr>
+                <th>Company</th>
+                <th>Job Title</th>
+                <th>Job Type</th>
+                <th>Location</th>
+                <th>Application Date</th>
+                <th>Status</th>
+                <th>Salary</th>
+                <th>Interview Date</th>
+                <th>Actions</th>
+            </tr>
+
+            {% for application in applications %}
+
+            <tr>
+                <td>{{ application.company_name }}</td>
+                <td>{{ application.job_title }}</td>
+                <td>{{ application.job_type }}</td>
+                <td>{{ application.location }}</td>
+                <td>{{ application.application_date }}</td>
+                <td>
+    <span class="status-badge status-{{ application.status|lower }}">
+        {{ application.status }}
+    </span>
+</td>
+                <td>{{ application.salary }}</td>
+                <td>{{ application.interview_date }}</td>
+                <td>
+    <a class="action-btn edit-btn" href="/edit/{{ application.id }}/">
+    Edit
+</a>
+
+<a class="action-btn delete-btn" href="/delete/{{ application.id }}/">
+    Delete
+</a>
+</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    {% else %}
+
+        <p>No job applications found.</p>
+
+    {% endif %}
+
+</body>
+</html>
